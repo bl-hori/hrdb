@@ -13,8 +13,8 @@
 <body>
     <div class="ui stackable inverted menu">
         <a class="item">HRDB</a>
-        <a class="item" href="/employee/list.html">社員一覧</a>
-        <a class="item" href="/employee/search.html">社員検索</a>
+        <a class="item" href="{% url 'employee.list' %}">社員一覧</a>
+        <a class="item" href="{% url 'employee.search' %}">社員検索</a>
         <div class="right menu">
             <a class="item">
                 Log in

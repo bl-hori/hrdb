@@ -4,7 +4,7 @@
 <h2 class="ui header">社員検索</h2>
 <h4 class="ui top attached block header">社員検索</h4>
 <div class="ui bottom attached segment">
-    <form class="ui form" method="GET" action="/employee/search.html">
+    <form class="ui form" method="GET" action="{% url 'employee.search' %}">
         <div class="field">
             <label>対象者検索</label>
             <input type="text" name="q" value="{{ q }}" placeholder="社員番号、名前（よみ、カナ）、メールアドレス">
