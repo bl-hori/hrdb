@@ -3,6 +3,14 @@
 {% block content %}
 <h2 class="ui header">組織一覧</h2>
 
+<div class="ui search">
+    <div class="ui icon input">
+        <input class="prompt" type="text" placeholder="組織検索...">
+        <i class="search icon"></i>
+    </div>
+    <div class="results"></div>
+</div>
+
 <table class="ui table">
     <thead>
         <tr>
@@ -29,4 +37,9 @@
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+</script>
 {% endblock %}
