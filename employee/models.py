@@ -1,5 +1,7 @@
 from django.db import models
 
+from department.models import Department
+
 
 class Employee(models.Model):
     class Meta:
@@ -74,5 +76,16 @@ class Employee(models.Model):
     def name_kata(self):
         return f'{self.name_sei_kana} {self.name_mei_kana}'
 
+    @property
+    def department_name(self):
+        department = Department.objects.get(code=self.department_code)
+        return department.name
+
+    @property
+    def department_id(self):
+        department = Department.objects.get(code=self.department_code)
+        return department.id
+
     def __str__(self):
         return f'{self.code} {self.email}'
+

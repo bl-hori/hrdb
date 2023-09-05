@@ -1,0 +1,20 @@
+{% extends 'base/layout.html' %}
+
+{% block content %}
+<h2 class="ui header">{{ department.path }}</h2>
+
+<div class="ui six column grid">
+    {% for employee in employee_list %}
+    <div class="column">
+        <div class="ui fluid card">
+            <div class="image">
+                <img src="https://semantic-ui.com/images/avatar/large/{{ img | random }}.jpg">
+            </div>
+            <div class="content">
+                <a class="header" href="{% url 'employee.detail' pk=employee.id %}">{{ employee.name }}</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

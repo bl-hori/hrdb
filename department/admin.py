@@ -15,3 +15,15 @@ class DepartmentAdmin(ImportExportMixin, admin.ModelAdmin):
 
 
 admin.site.register(models.Department, DepartmentAdmin)
+
+
+class RelationResource(resources.ModelResource):
+    class Meta:
+        model = models.Relation
+
+
+class RelationAdmin(ImportExportMixin, admin.ModelAdmin):
+    resource_class = RelationResource
+
+
+admin.site.register(models.Relation, RelationAdmin)

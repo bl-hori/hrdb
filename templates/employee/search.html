@@ -20,6 +20,7 @@
             <th>名前</th>
             <th>よみがな（カナ）</th>
             <th>メールアドレス</th>
+            <th>所属組織</th>
             <th></th>
         </tr>
     </thead>
@@ -31,6 +32,7 @@
             <td>{{ employee.name_hira }}
                 ({{ employee.name_kata }})</td>
             <td>{{ employee.email }}</td>
+            <td>{{ employee.department_name }}</td>
             <td>
                 <button class="ui primary basic button tiny">
                     <a href="{% url 'employee.detail' pk=employee.id %}">

@@ -2,7 +2,18 @@
 
 {% block content %}
 <div class="ui card">
-    <div class="image">
+    <div class="blurring dimmable image">
+        <div class="ui dimmer">
+            <div class="content">
+                <div class="center">
+                    <div class="ui inverted button">
+                        <a href="{% url 'department.detail' pk=employee.department_id %}">
+                            {{ employee.department_name }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <img src="https://semantic-ui.com/images/avatar/large/{{ img | random }}.jpg">
     </div>
     <div class="content">
@@ -21,4 +32,12 @@
         </a>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    $('.card .image').dimmer({
+        on: 'hover',
+    });
+</script>
 {% endblock %}

@@ -28,7 +28,7 @@
             <td>{{ department.path }}</td>
             <td>
                 <button class="ui primary basic button tiny">
-                    <a href="#">
+                    <a href="{% url 'department.detail' pk=department.id %}">
                         表示
                     </a>
                 </button>

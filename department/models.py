@@ -47,3 +47,23 @@ class Department(models.Model):
 
     def __str__(self):
         return f'{self.dept_code} {self.path}'
+
+
+class Relation(models.Model):
+    class Meta:
+        verbose_name = '所属組織'
+        verbose_name_plural = '所属組織'
+
+    employee_code = models.CharField(
+        "社員番号",
+        max_length=255,
+        null=True,
+        blank=False,
+    )
+
+    department_code = models.CharField(
+        "組織番号",
+        max_length=255,
+        null=True,
+        blank=False,
+    )
