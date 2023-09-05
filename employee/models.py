@@ -55,6 +55,12 @@ class Employee(models.Model):
         null=True,
         blank=False,
     )
+    department_code = models.CharField(
+        "組織番号",
+        max_length=255,
+        null=True,
+        blank=False,
+    )
 
     @property
     def name(self):
