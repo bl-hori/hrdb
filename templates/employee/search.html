@@ -1,47 +1,56 @@
-{% extends 'base/layout.html' %}
-
-{% block content %}
+{% extends 'base/layout.html' %} {% block content %}
 <h2 class="ui header">社員検索</h2>
 <h4 class="ui top attached block header">社員検索</h4>
 <div class="ui bottom attached segment">
-    <form class="ui form" method="GET" action="{% url 'employee.search' %}">
-        <div class="field">
-            <label>対象者検索</label>
-            <input type="text" name="q" value="{{ q }}" placeholder="社員番号、名前（よみ、カナ）、メールアドレス">
-        </div>
-        <button class="ui button" type="submit">検索</button>
-    </form>
+  <form class="ui form" method="GET" action="{% url 'employee.search' %}">
+    <div class="field">
+      <label>対象者検索</label>
+      <input type="text" name="q" value="{{ q }}" placeholder="社員番号、名前（よみ、カナ）、メールアドレス" />
+    </div>
+
+    <div class="field">
+      <label>並び替え</label>
+      <select name="order">
+        <option value="">----</option>
+        <option value="gender" {% if request.GET.order == "gender" %} selected {% endif %}>
+          性別
+        </option>
+      </select>
+    </div>
+
+    <button class="ui button" type="submit">検索</button>
+  </form>
 </div>
 
+{% for group in employee_list_groups %}
+<h3 class="ui block header">{{ group.header }}</h3>
+
 <table class="ui table">
-    <thead>
-        <tr>
-            <th>社員番号</th>
-            <th>名前</th>
-            <th>よみがな（カナ）</th>
-            <th>メールアドレス</th>
-            <th>所属組織</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for employee in employee_list %}
-        <tr>
-            <td>{{ employee.code }}</td>
-            <td>{{ employee.name }}</td>
-            <td>{{ employee.name_hira }}
-                ({{ employee.name_kata }})</td>
-            <td>{{ employee.email }}</td>
-            <td>{{ employee.department_name }}</td>
-            <td>
-                <button class="ui primary basic button tiny">
-                    <a href="{% url 'employee.detail' pk=employee.id %}">
-                        表示
-                    </a>
-                </button>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th>社員番号</th>
+      <th>名前</th>
+      <th>よみがな</th>
+      <th>メールアドレス</th>
+      <th>所属組織</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for employee in group.table %}
+    <tr>
+      <td>{{ employee.code }}</td>
+      <td>{{ employee.name }}</td>
+      <td>{{ employee.name_hira }}</td>
+      <td>{{ employee.email }}</td>
+      <td>{{ employee.department.name }}</td>
+      <td>
+        <button class="ui primary basic button tiny">
+          <a href="{% url 'employee.detail' pk=employee.id %}"> 表示 </a>
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
-{% endblock %}
+{% endfor %} {% endblock %}

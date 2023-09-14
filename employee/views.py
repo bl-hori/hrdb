@@ -3,7 +3,7 @@ from operator import and_
 
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, TemplateView
 
 from employee.models import Employee
 
@@ -14,18 +14,19 @@ class EmployeeListView(ListView):
     queryset = Employee.objects.all()
 
 
-class EmployeeSearchView(ListView):
+class EmployeeSearchView(TemplateView):
     template_name = "employee/search.html"
-    context_object_name = "employee_list"
 
-    def get_context_data(self):
-        ctx = super().get_context_data()
-        ctx["q"] = " ".join(self.parse_search_params(self.request.GET.get("q", "")))
-        return ctx
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        parameters = self.request.GET
+        groups = []
+        objects = Employee.objects.filter()
 
-    def get_queryset(self):
-        if self.request.GET.get("q", ""):
-            params = self.parse_search_params(self.request.GET["q"])
+        if parameters.get('q', None):
+            params = self.parse_search_params(parameters.get('q'))
+            ctx['q'] = " ".join(params)
+
             query = reduce(
                 and_,
                 [
@@ -40,9 +41,38 @@ class EmployeeSearchView(ListView):
                     for p in params
                 ],
             )
-            return Employee.objects.filter(query)
+            objects = objects.filter(query)
+
+        order = parameters.get('order', None)
+
+        if order:
+            ctx['order'] = order
+
+        if order == 'gender':
+            objects_filter = objects.filter(detail__e_gender="男性")
+            group = {
+                'header' : f'男性 ({len(objects_filter)}名)',
+                'table' : objects_filter,
+            }
+            groups.append(group)
+
+            objects_filter = objects.filter(detail__e_gender="女性")
+            group = {
+                'header' : f'女性 ({len(objects_filter)}名)',
+                'table' : objects_filter,
+            }
+            groups.append(group)
         else:
-            return None
+            table = objects.all()
+            group = {
+                'header' : f'全体 ({len(table)}名)',
+                'table' : table,
+            }
+            groups.append(group)
+
+        ctx['employee_list_groups'] = groups
+
+        return ctx
 
     def parse_search_params(self, words: str) -> list:
         seach_words = words.replace("　", " ").split()
@@ -58,5 +88,4 @@ class EmployeeDetailView(DetailView):
         ctx = super().get_context_data(**kwargs)
         ctx['employee'] = get_object_or_404(Employee, id=self.kwargs.get('pk', ''))
         ctx['img'] =  ["elliot", "helen", "jenny", "veronika", "stevie", "steve"]
-
         return ctx

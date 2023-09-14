@@ -15,3 +15,13 @@ class EmployeeAdmin(ImportExportMixin, admin.ModelAdmin):
 
 
 admin.site.register(models.Employee, EmployeeAdmin)
+
+class EmployeeDetailResource(resources.ModelResource):
+    class Meta:
+        model = models.EmployeeDetail
+
+class EmployeeDetailAdmin(ImportExportMixin, admin.ModelAdmin):
+    resource_class = EmployeeDetailResource
+
+
+admin.site.register(models.EmployeeDetail, EmployeeDetailAdmin)

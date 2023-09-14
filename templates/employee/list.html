@@ -20,9 +20,9 @@
             <td>{{ employee.code }}</td>
             <td>{{ employee.name }}</td>
             <td>{{ employee.name_hira }}
-                ({{ employee.name_kata }})</td>
+                ({{ employee.name_kana }})</td>
             <td>{{ employee.email }}</td>
-            <td>{{ employee.department_name }}</td>
+            <td>{{ employee.department.name }}</td>
             <td>
                 <button class="ui primary basic button tiny">
                     <a href="{% url 'employee.detail' pk=employee.id %}">

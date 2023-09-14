@@ -63,6 +63,7 @@ class Employee(models.Model):
         null=True,
         blank=False,
     )
+    department = models.ForeignKey(Department, related_name="employees", on_delete=models.CASCADE, null=True,)
 
     @property
     def name(self):
@@ -73,19 +74,45 @@ class Employee(models.Model):
         return f'{self.name_sei_hira} {self.name_mei_hira}'
 
     @property
-    def name_kata(self):
+    def name_kana(self):
         return f'{self.name_sei_kana} {self.name_mei_kana}'
-
-    @property
-    def department_name(self):
-        department = Department.objects.get(code=self.department_code)
-        return department.name
-
-    @property
-    def department_id(self):
-        department = Department.objects.get(code=self.department_code)
-        return department.id
 
     def __str__(self):
         return f'{self.code} {self.email}'
 
+
+class EmployeeDetail(models.Model):
+
+    class Meta:
+        verbose_name = '従業員詳細'
+        verbose_name_plural = '従業員詳細'
+
+    code = models.CharField(
+        "社員番号",
+        max_length=255,
+    )
+    e_gender = models.CharField(
+        "性別",
+        max_length=255,
+    )
+    e_hiredate = models.CharField(
+        "入社日",
+        max_length=255,
+    )
+    e_work = models.CharField(
+        "雇用形態",
+        max_length=255,
+    )
+    e_type = models.CharField(
+        "職種",
+        max_length=255,
+    )
+    e_post = models.CharField(
+        "役職",
+        max_length=255,
+    )
+    e_place = models.CharField(
+        "事業所",
+        max_length=255,
+    )
+    employee = models.OneToOneField(Employee, related_name="detail", on_delete=models.CASCADE, null=True)
